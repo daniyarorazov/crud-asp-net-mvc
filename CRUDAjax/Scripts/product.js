@@ -2,6 +2,20 @@
     loadData();
 });
 
+function divideWithSpace(num) {
+    let numString = num.toString();
+    let dividedString = '';
+
+    for (let i = numString.length - 1; i >= 0; i--) {
+        dividedString = numString[i] + dividedString;
+        if ((numString.length - i) % 3 === 0 && i !== 0) {
+            dividedString = ' ' + dividedString;
+        }
+    }
+
+    return dividedString;
+}
+
 function loadData() {
     $.ajax({
         url: "/Home/List",
@@ -9,7 +23,7 @@ function loadData() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            var html = '';
+            var html = '';        
             $.each(result, function (key, item) {     
                 html += '<div class="col">';
                 html += '<div class="card">';
@@ -17,7 +31,7 @@ function loadData() {
                 html += '<h5 class="card-title">' + item.Name + '</h5>';
                 html += '<span class="card-subtitle"><b>Category:</b> ' + item.Category + '</span>';
                 html += '<br />';
-                html += '<span class="card-subtitle"><b>Price:</b> ' + item.Price + ' Kč</span>';
+                html += '<span class="card-subtitle"><b>Price:</b> ' + divideWithSpace(item.Price) + ' Kč</span>';
                 html += '<div class="card-group">';
                 html += '<a href="#" onclick="return getbyID(' + item.ProductId + ')" class="btn btn-warning w-100 mt-2">Edit</a>';
                 html += '<a href="#" onclick="Delele(' + item.ProductId + ')" class="btn btn-danger w-100  mt-2">Delete</a>';
