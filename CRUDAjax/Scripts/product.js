@@ -10,17 +10,14 @@ function loadData() {
         dataType: "json",
         success: function (result) {
             var html = '';
-            $.each(result, function (key, item) {
-                
-
+            $.each(result, function (key, item) {     
                 html += '<div class="col">';
                 html += '<div class="card">';
-                html += '<img src="..." class="card-img-top" alt="...">';
                 html += '<div class="card-body">';
                 html += '<h5 class="card-title">' + item.Name + '</h5>';
-                html += '<span class="card-subtitle">' + item.Category + '</span>';
+                html += '<span class="card-subtitle"><b>Category:</b> ' + item.Category + '</span>';
                 html += '<br />';
-                html += '<span class="card-subtitle">Price: ' + item.Price + ' Kč</span>';
+                html += '<span class="card-subtitle"><b>Price:</b> ' + item.Price + ' Kč</span>';
                 html += '<div class="card-group">';
                 html += '<a href="#" onclick="return getbyID(' + item.ProductId + ')" class="btn btn-warning w-100 mt-2">Edit</a>';
                 html += '<a href="#" onclick="Delele(' + item.ProductId + ')" class="btn btn-danger w-100  mt-2">Delete</a>';
