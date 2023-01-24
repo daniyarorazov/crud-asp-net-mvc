@@ -15,35 +15,14 @@
 </head>
 <body>
     <div class="container">
-        <h2>Employees Record</h2>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" onclick="clearTextBox();">Add New Employee</button><br /><br />
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        ID
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Age
-                    </th>
-                    <th>
-                        State
-                    </th>
-                    <th>
-                        Country
-                    </th>
-                    <th>
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-            </tbody>
-        </table>
+        <h2 class="mt-2">List of products</h2>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" onclick="clearTextBox();">Add New Product item</button><br /><br />
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4" id="cardsBlock">
+
+        </div>
     </div>
+
+    
 
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -57,24 +36,20 @@
                     <form>
                         <div class="form-group">
                             <label for="EmployeeId">ID</label>
-                            <input type="text" class="form-control" id="EmployeeID" placeholder="Id" disabled="disabled" />
+                            <input type="text" class="form-control" id="ProductId" placeholder="ProductId" disabled="disabled" />
                         </div>
                         <div class="form-group">
                             <label for="Name">Name</label>
                             <input type="text" class="form-control" id="Name" placeholder="Name" />
                         </div>
                         <div class="form-group">
-                            <label for="Age">Age</label>
-                            <input type="text" class="form-control" id="Age" placeholder="Age" />
+                            <label for="Age">Category</label>
+                            <input type="text" class="form-control" id="Category" placeholder="Category" />
                         </div>
                         <div class="form-group">
-                            <label for="State">State</label>
-                            <input type="text" class="form-control" id="State" placeholder="State" />
-                        </div>
-                        <div class="form-group">
-                            <label for="Country">Country</label>
-                            <input type="text" class="form-control" id="Country" placeholder="Country" />
-                        </div>
+                            <label for="State">Price</label>
+                            <input type="text" class="form-control" id="Price" placeholder="Price (Kč)" />
+                        </div>     
                     </form>
                 </div>
                 <div class="modal-footer">

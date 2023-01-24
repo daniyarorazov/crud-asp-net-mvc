@@ -13,16 +13,25 @@ function loadData() {
         success: function (result) {
             var html = '';
             $.each(result, function (key, item) {
-                html += '<tr>';
-                html += '<td>' + item.EmployeeID + '</td>';
-                html += '<td>' + item.Name + '</td>';
-                html += '<td>' + item.Age + '</td>';
-                html += '<td>' + item.State + '</td>';
-                html += '<td>' + item.Country + '</td>';
-                html += '<td><a href="#" onclick="return getbyID(' + item.EmployeeID + ')">Edit</a> | <a href="#" onclick="Delele(' + item.EmployeeID + ')">Delete</a></td>';
-                html += '</tr>';
+                
+
+                html += '<div class="col">';
+                html += '<div class="card">';
+                html += '<img src="..." class="card-img-top" alt="...">';
+                html += '<div class="card-body">';
+                html += '<h5 class="card-title">' + item.Name + '</h5>';
+                html += '<span class="card-subtitle">' + item.Category + '</span>';
+                html += '<br />';
+                html += '<span class="card-subtitle">Price: ' + item.Price + ' Kč</span>';
+                html += '<div class="card-group">';
+                html += '<a href="#" onclick="return getbyID(' + item.ProductId + ')" class="btn btn-warning w-100 mt-2">Edit</a>';
+                html += '<a href="#" onclick="Delele(' + item.ProductId + ')" class="btn btn-danger w-100  mt-2">Delete</a>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
             });
-            $('.tbody').html(html);
+            $('#cardsBlock').html(html);
         },
         error: function (errormessage) {
             console.log(errormessage.responseText);
@@ -36,16 +45,15 @@ function Add() {
     if (res == false) {
         return false;
     }
-    var empObj = {
-        EmployeeID: $('#EmployeeID').val(),
+    var prdObj = {
+        ProductId: $('#ProductId').val(),
         Name: $('#Name').val(),
-        Age: $('#Age').val(),
-        State: $('#State').val(),
-        Country: $('#Country').val()
+        Category: $('#Category').val(),
+        Price: $('#Price').val(),
     };
     $.ajax({
         url: "/Home/Add",
-        data: JSON.stringify(empObj),
+        data: JSON.stringify(prdObj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -60,22 +68,17 @@ function Add() {
 }
 
 //Function for getting the Data Based upon Employee ID  
-function getbyID(EmpID) {
-    $('#Name').css('border-color', 'lightgrey');
-    $('#Age').css('border-color', 'lightgrey');
-    $('#State').css('border-color', 'lightgrey');
-    $('#Country').css('border-color', 'lightgrey');
+function getbyID(PrdID) {
     $.ajax({
-        url: "/Home/getbyID/" + EmpID,
+        url: "/Home/getbyID/" + PrdID,
         typr: "GET",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-            $('#EmployeeID').val(result.EmployeeID);
+            $('#ProductId').val(result.ProductId);
             $('#Name').val(result.Name);
-            $('#Age').val(result.Age);
-            $('#State').val(result.State);
-            $('#Country').val(result.Country);
+            $('#Category').val(result.Category);
+            $('#Price').val(result.Price);
 
             $('#myModal').modal('show');
             $('#btnUpdate').show();
@@ -94,27 +97,25 @@ function Update() {
     if (res == false) {
         return false;
     }
-    var empObj = {
-        EmployeeID: $('#EmployeeID').val(),
+    var prdObj = {
+        ProductId: $('#ProductId').val(),
         Name: $('#Name').val(),
-        Age: $('#Age').val(),
-        State: $('#State').val(),
-        Country: $('#Country').val(),
+        Category: $('#Category').val(),
+        Price: $('#Price').val(),
     };
     $.ajax({
         url: "/Home/Update",
-        data: JSON.stringify(empObj),
+        data: JSON.stringify(prdObj),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
             loadData();
             $('#myModal').modal('hide');
-            $('#EmployeeID').val("");
+            $('#ProductId').val("");
             $('#Name').val("");
-            $('#Age').val("");
-            $('#State').val("");
-            $('#Country').val("");
+            $('#Category').val("");
+            $('#Price').val("");
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -143,17 +144,15 @@ function Delele(ID) {
 
 //Function for clearing the textboxes  
 function clearTextBox() {
-    $('#EmployeeID').val("");
+    $('#ProductId').val("");
     $('#Name').val("");
-    $('#Age').val("");
-    $('#State').val("");
-    $('#Country').val("");
+    $('#Category').val("");
+    $('#Price').val("");
     $('#btnUpdate').hide();
     $('#btnAdd').show();
     $('#Name').css('border-color', 'lightgrey');
-    $('#Age').css('border-color', 'lightgrey');
-    $('#State').css('border-color', 'lightgrey');
-    $('#Country').css('border-color', 'lightgrey');
+    $('#Category').css('border-color', 'lightgrey');
+    $('#Price').css('border-color', 'lightgrey');
 }
 //Valdidation using jquery  
 function validate() {
@@ -165,26 +164,20 @@ function validate() {
     else {
         $('#Name').css('border-color', 'lightgrey');
     }
-    if ($('#Age').val().trim() == "") {
-        $('#Age').css('border-color', 'Red');
+    if ($('#Category').val().trim() == "") {
+        $('#Category').css('border-color', 'Red');
         isValid = false;
     }
     else {
-        $('#Age').css('border-color', 'lightgrey');
+        $('#Category').css('border-color', 'lightgrey');
     }
-    if ($('#State').val().trim() == "") {
-        $('#State').css('border-color', 'Red');
+    if ($('#Price').val().trim() == "") {
+        $('#Price').css('border-color', 'Red');
         isValid = false;
     }
     else {
-        $('#State').css('border-color', 'lightgrey');
+        $('#Price').css('border-color', 'lightgrey');
     }
-    if ($('#Country').val().trim() == "") {
-        $('#Country').css('border-color', 'Red');
-        isValid = false;
-    }
-    else {
-        $('#Country').css('border-color', 'lightgrey');
-    }
+   
     return isValid;
 }  
