@@ -33,7 +33,6 @@ namespace CRUDAjax.Models
             }
         }
 
-        //Method for Adding an Employee  
         public int Add(Product prd)
         {
             int i;
@@ -52,7 +51,6 @@ namespace CRUDAjax.Models
             return i;
         }
 
-        //Method for Updating Employee record  
         public int Update(Product prd)
         {
             int i;
@@ -63,15 +61,14 @@ namespace CRUDAjax.Models
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Id", prd.ProductId);
                 com.Parameters.AddWithValue("@Name", prd.Name);
-                com.Parameters.AddWithValue("@Age", prd.Category);
-                com.Parameters.AddWithValue("@State", prd.Price);
+                com.Parameters.AddWithValue("@Category", prd.Category);
+                com.Parameters.AddWithValue("@Price", prd.Price);
                 com.Parameters.AddWithValue("@Action", "Update");
                 i = com.ExecuteNonQuery();
             }
             return i;
         }
 
-        //Method for Deleting an Employee  
         public int Delete(int ID)
         {
             int i;

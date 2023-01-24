@@ -1,9 +1,7 @@
-﻿//Load Data in Table when documents is ready  
-$(document).ready(function () {
+﻿$(document).ready(function () {
     loadData();
 });
 
-//Load Data function  
 function loadData() {
     $.ajax({
         url: "/Home/List",
@@ -39,7 +37,6 @@ function loadData() {
     });
 }
 
-//Add Data Function   
 function Add() {
     var res = validate();
     if (res == false) {
@@ -67,7 +64,6 @@ function Add() {
     });
 }
 
-//Function for getting the Data Based upon Employee ID  
 function getbyID(PrdID) {
     $.ajax({
         url: "/Home/getbyID/" + PrdID,
@@ -91,7 +87,6 @@ function getbyID(PrdID) {
     return false;
 }
 
-//function for updating employee's record  
 function Update() {
     var res = validate();
     if (res == false) {
@@ -123,7 +118,6 @@ function Update() {
     });
 }
 
-//function for deleting employee's record  
 function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
@@ -142,7 +136,6 @@ function Delele(ID) {
     }
 }
 
-//Function for clearing the textboxes  
 function clearTextBox() {
     $('#ProductId').val("");
     $('#Name').val("");
@@ -154,7 +147,6 @@ function clearTextBox() {
     $('#Category').css('border-color', 'lightgrey');
     $('#Price').css('border-color', 'lightgrey');
 }
-//Valdidation using jquery  
 function validate() {
     var isValid = true;
     if ($('#Name').val().trim() == "") {
