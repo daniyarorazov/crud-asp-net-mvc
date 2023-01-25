@@ -22,7 +22,38 @@
         </div>
     </div>
 
-    
+
+    <input type="file" name="file" id="file" />
+    <input type="submit" value="Upload" onclick="HandleFormSubmit();" />
+
+
+    <script>
+
+
+
+
+        function HandleFormSubmit() {
+            var formData = new FormData();
+            var file = document.getElementById("file").files[0];
+            formData.append("file", file);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Upload", "Home")",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert(response)
+            },
+            error: function (error) {
+                alert(error)
+            }
+            });
+        }
+    </script>
+
+
 
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -49,7 +80,7 @@
                         <div class="form-group">
                             <label for="State">Price (Kč)</label>
                             <input type="text" class="form-control" id="Price" placeholder="" />
-                        </div>     
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
