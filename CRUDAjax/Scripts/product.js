@@ -17,6 +17,7 @@ function divideWithSpace(num) {
 }
 
 function loadData() {
+    
     $.ajax({
         url: "/Home/List",
         type: "GET",
@@ -28,13 +29,14 @@ function loadData() {
                 html += '<div class="col">';
                 html += '<div class="card">';
                 html += '<div class="card-body">';
+                html += '<img class="card-img w-5 h-2" src="/Data/images/'  + item.ImageName + '" />';
                 html += '<h5 class="card-title">' + item.Name + '</h5>';
                 html += '<span class="card-subtitle"><b>Category:</b> ' + item.Category + '</span>';
                 html += '<br />';
                 html += '<span class="card-subtitle"><b>Price:</b> ' + divideWithSpace(item.Price) + ' Kč</span>';
                 html += '<div class="card-group">';
                 html += '<a href="#" onclick="return getbyID(' + item.ProductId + ')" class="btn btn-warning w-100 mt-2">Edit</a>';
-                html += '<a href="#" onclick="Delele(' + item.ProductId + ')" class="btn btn-danger w-100  mt-2">Delete</a>';
+                html += '<button value="Delete"  onclick="Delele(' + item.ProductId + ')" class="btn btn-danger w-100  mt-2">Delete</a>';
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';
@@ -50,15 +52,25 @@ function loadData() {
 
 function Add() {
     var res = validate();
+    var formData = new FormData();
+    var file = document.getElementById("Image").files[0];
+    formData.append("file", file);
     if (res == false) {
         return false;
     }
+    var fullPath = $('#Image').val();
+    var pathElements = fullPath.split("\\");
+    var imageName = pathElements[pathElements.length - 1];
+
+
     var prdObj = {
         ProductId: $('#ProductId').val(),
         Name: $('#Name').val(),
         Category: $('#Category').val(),
         Price: $('#Price').val(),
+        ImageName: imageName,
     };
+
     $.ajax({
         url: "/Home/Add",
         data: JSON.stringify(prdObj),
@@ -66,13 +78,17 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
+                loadData();
+
             $('#myModal').modal('hide');
+                HandleFormSubmit();
+            
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
+
 }
 
 function getbyID(PrdID) {
@@ -98,17 +114,40 @@ function getbyID(PrdID) {
     return false;
 }
 
+function getbyID2(PrdID) {
+    $.ajax({
+        url: "/Home/getbyID/" + PrdID,
+        typr: "GET",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            $("#titleBlock").val(result.ProductId);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+    return false;
+}
+
 function Update() {
     var res = validate();
     if (res == false) {
         return false;
     }
+    var fullPath = $('#Image').val();
+    var pathElements = fullPath.split("\\");
+    var imageName = pathElements[pathElements.length - 1];
+
     var prdObj = {
         ProductId: $('#ProductId').val(),
         Name: $('#Name').val(),
         Category: $('#Category').val(),
         Price: $('#Price').val(),
+        ImageName: imageName,
     };
+
+
     $.ajax({
         url: "/Home/Update",
         data: JSON.stringify(prdObj),
@@ -122,12 +161,15 @@ function Update() {
             $('#Name').val("");
             $('#Category').val("");
             $('#Price').val("");
+            HandleFormSubmit();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
 }
+
+
 
 function Delele(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
@@ -144,6 +186,7 @@ function Delele(ID) {
                 alert(errormessage.responseText);
             }
         });
+
     }
 }
 
@@ -152,6 +195,7 @@ function clearTextBox() {
     $('#Name').val("");
     $('#Category').val("");
     $('#Price').val("");
+    /*$('#Image').val("");*/
     $('#btnUpdate').hide();
     $('#btnAdd').show();
     $('#Name').css('border-color', 'lightgrey');

@@ -23,36 +23,7 @@
     </div>
 
 
-    <input type="file" name="file" id="file" />
-    <input type="submit" value="Upload" onclick="HandleFormSubmit();" />
-
-
-    <script>
-
-
-
-
-        function HandleFormSubmit() {
-            var formData = new FormData();
-            var file = document.getElementById("file").files[0];
-            formData.append("file", file);
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("Upload", "Home")",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                alert(response)
-            },
-            error: function (error) {
-                alert(error)
-            }
-            });
-        }
-    </script>
-
+   
 
 
 
@@ -79,19 +50,46 @@
                         </div>
                         <div class="form-group">
                             <label for="State">Price (Kč)</label>
-                            <input type="text" class="form-control" id="Price" placeholder="" />
+                            <input type="text" class="form-control" id="Price" placeholder="14000" />
+                        </div><div class="form-group">
+                            <label for="State">Image of product</label>
+                            <input type="file" name="file" id="Image" />
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                    <button type="button" class="btn btn-primary" id="btnAdd" value="Upload" onclick="return Add();">Add</button>
                     <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
                     <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+    <script>
 
+        
+
+        function HandleFormSubmit() {
+            var formData = new FormData();
+            var file = document.getElementById("Image").files[0];
+            formData.append("file", file);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Upload", "Home")",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert(response)
+            },
+            error: function (error) {
+                alert(error)
+            }
+        });
+
+        }
+    </script>
 </body>
 </html>
 

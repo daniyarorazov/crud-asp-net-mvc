@@ -1,6 +1,7 @@
 ﻿using CRUDAjax.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,13 +13,19 @@ namespace CRUDAjax.Controllers
     public class HomeController : Controller
     {
         ProductDB prdDB = new ProductDB();
+
+
+        
         public ActionResult Index()
         {
             return View();
         }
         public JsonResult List()
         {
+            
             return Json(prdDB.ListAll(), JsonRequestBehavior.AllowGet);
+
+
         }
         public JsonResult Add(Product prd)
         {
@@ -37,6 +44,8 @@ namespace CRUDAjax.Controllers
         {
             return Json(prdDB.Delete(ID), JsonRequestBehavior.AllowGet);
         }
+
+        
 
         [HttpPost]
         public JsonResult Upload(HttpPostedFileBase file)
@@ -64,32 +73,37 @@ namespace CRUDAjax.Controllers
 
                 // Get the response from the FTP server
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-                return Json(response);
 
                 // Check that the upload was successful
-                /*if (response.StatusCode == FtpStatusCode.ClosingData)
+                if (response.StatusCode == FtpStatusCode.ClosingData)
                 {
-                    // Save the image name in the database
-                    var image = new ImageModel
-                    {
-                        Name = fileName
-                    };
-                    _db.Images.Add(image);
-                    _db.SaveChanges();
-                    response.Close();
+                    string filePath = Path.Combine(Server.MapPath("~/Data/images/"), file.FileName);
+                    file.SaveAs(filePath);
                     return Json("Image uploaded successfully!");
                 }
                 else
                 {
                     response.Close();
                     return Json("Upload failed: " + response.StatusDescription);
-                }*/
+                }
             }
             else
             {
                 return Json("No file uploaded.");
             }
-            return Json("Maybe");
+            
+
         }
+
+        public JsonResult DeleteImage(HttpPostedFileBase file)
+        {
+            var filePath = Server.MapPath("~/Data/images" + file.FileName);
+            System.IO.File.Delete(filePath);
+            return Json("Image uploaded successfully!");
+        }
+
+
+
+
     }
 }
