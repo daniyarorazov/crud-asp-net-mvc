@@ -12,46 +12,54 @@ namespace CRUDAjax.Controllers
 {
     public class HomeController : Controller
     {
+
         ProductDB prdDB = new ProductDB();
 
-
-        
+        // This method returns the View
         public ActionResult Index()
         {
             return View();
         }
+
+        // This method returns a JSON object with the result of the "ListAll" method of "prdDB"
         public JsonResult List()
         {
-            
             return Json(prdDB.ListAll(), JsonRequestBehavior.AllowGet);
-
-
         }
+
+        // This method returns a JSON object with the result of the "Add" method of "prdDB" with a parameter of "Product prd"
         public JsonResult Add(Product prd)
         {
             return Json(prdDB.Add(prd), JsonRequestBehavior.AllowGet);
         }
+
+        // This method returns a JSON object of a Product that matches the specified ID from the result of the "ListAll" method of "prdDB"
         public JsonResult GetbyID(int ID)
         {
             var Product = prdDB.ListAll().Find(x => x.ProductId.Equals(ID));
             return Json(Product, JsonRequestBehavior.AllowGet);
         }
+
+        // This method returns a JSON object with the result of the "Update" method of "prdDB" with a parameter of "Product prd"
         public JsonResult Update(Product prd)
         {
             return Json(prdDB.Update(prd), JsonRequestBehavior.AllowGet);
         }
+
+        // This method returns a JSON object with the result of the "Delete" method of "prdDB" with a parameter of "ID"
         public JsonResult Delete(int ID)
         {
             return Json(prdDB.Delete(ID), JsonRequestBehavior.AllowGet);
         }
 
         
-
+        // Method for upload file
         [HttpPost]
         public JsonResult Upload(HttpPostedFileBase file)
         {
             if (file != null && file.ContentLength > 0)
             {
+                // Add all credentials for FTP server
                 var fileName = Path.GetFileName(file.FileName);
                 var ftpServer = "ftp://127.0.0.1/images/";
                 var ftpUsername = "example";
@@ -76,7 +84,8 @@ namespace CRUDAjax.Controllers
 
                 // Check that the upload was successful
                 if (response.StatusCode == FtpStatusCode.ClosingData)
-                {
+                {   
+                    // Saving path
                     string filePath = Path.Combine(Server.MapPath("~/Data/images/"), file.FileName);
                     file.SaveAs(filePath);
                     return Json("Image uploaded successfully!");
@@ -91,19 +100,17 @@ namespace CRUDAjax.Controllers
             {
                 return Json("No file uploaded.");
             }
-            
-
         }
 
+        // This method deletes an image file and returns a JSON object with a success message
         public JsonResult DeleteImage(HttpPostedFileBase file)
         {
+            // Get the file path
             var filePath = Server.MapPath("~/Data/images" + file.FileName);
+            // Delete the file
             System.IO.File.Delete(filePath);
+            // Return success message
             return Json("Image uploaded successfully!");
         }
-
-
-
-
     }
 }

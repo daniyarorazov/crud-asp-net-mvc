@@ -8,25 +8,22 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>List of products</title>
+    @* Connect all scripts and css file to html page *@
     <script src="~/Scripts/jquery-3.6.3.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/product.js"></script>
 </head>
 <body>
+    @* Create block with class container for showing all data from table Product *@
     <div class="container">
         <h2 class="mt-2">List of products</h2>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" onclick="clearTextBox();">Add New Product item</button><br /><br />
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4" id="cardsBlock">
-
         </div>
     </div>
 
-
-   
-
-
-
+    @* Creating modal *@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -67,26 +64,28 @@
     </div>
     <script>
 
-        
 
+        // Function for uploading image using ajax query
         function HandleFormSubmit() {
             var formData = new FormData();
+            // Get the first file from the input with ID "Image"
             var file = document.getElementById("Image").files[0];
+            // Add the file to the form data with the key "file"
             formData.append("file", file);
 
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("Upload", "Home")",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                alert(response)
-            },
-            error: function (error) {
-                alert(error)
-            }
-        });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Upload", "Home")",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response)
+                },
+                error: function (error) {
+                    alert(error)
+                }
+            });
 
         }
     </script>
